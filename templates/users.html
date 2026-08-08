@@ -14,7 +14,13 @@
 	
 	<ul>
 		{%for user in users%}
-			<li>{{ user[0]}} - {{ user[1]}}</li>
+			<li>
+				{{ user[0]}} - {{ user[1]}}
+				<form method="POST" action="/delete/{{ user[0]}}" style="display:inline;">
+				<button type="submit">Elimina</button>	
+				</form>
+				<a href="/edit/{{ user[0]}}">Modifica</a>
+			</li>
 		{% endfor%}
 	</ul>
 

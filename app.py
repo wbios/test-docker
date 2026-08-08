@@ -50,5 +50,36 @@ def delete_user(user_id):
 
 	return redirect("/")
 
+@app.route("/edit/<int:user_id>")
+def edit_user(user_id):
+	conn = get_db_connection()
+	cur = conn.cursor()
+
+	cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+
+	user = cur.fetchone()
+
+	cur.close()
+	conn.close()
+
+	return render_template("edit.html", user=user)
+
+@app.route("/update/<int:user_id>", methods=["POST"])
+def update_user(user_id):
+	name = request.form["name"]
+
+	conn = get_db_connection()
+	cur = conn.cursor()
+
+	cur.execute("UPDATE users SET name = %s WHERE id = %s;", (name, user_id))
+
+	conn.commit()
+
+	cur.close()
+	conn.close()
+
+	return redirect("/")
+
+
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=80)
