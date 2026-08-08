@@ -35,5 +35,20 @@ def add_user():
 	conn.close()
 
 	return redirect("/")
+
+@app.route("/delete/<int:user_id>", methods=["POST"])
+def delete_user(user_id):
+	conn = get_db_connection()
+	cur = conn.cursor()
+
+	cur.execute("DELETE FROM users WHERE id = %s", (user_id,))
+
+	conn.commit()
+
+	cur.close()
+	conn.close()
+
+	return redirect("/")
+
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=80)
