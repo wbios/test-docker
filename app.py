@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import psycopg2
 
 app =  Flask(__name__)
@@ -18,7 +18,7 @@ def home():
 	cur.close()
 	conn.close()
 	
-	return str(users)
+	return render_template("users.html", users=users)
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0", port=80)

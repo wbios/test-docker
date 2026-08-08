@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+	<meta charset="UTF-8">
+	<title>Utenti</title>
+</head>
+<body>
+	<h1>Utenti H1</h1>
+	
+	<ul>
+		{%for user in users%}
+			<li>{{ user[0]}} - {{ user[1]}}</li>
+		{% endfor%}
+	</ul>
+
+
+</body>
+</html>
