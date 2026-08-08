@@ -3,3 +3,15 @@ services:
     build: .
     ports:
       - "8080:80"
+
+  database:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

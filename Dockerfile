@@ -1,3 +1,11 @@
-FROM nginx:alpine
+FROM python:3.14-slim
 
-COPY index.html /usr/share/nginx/html/index.html
+WORKDIR /app
+
+RUN pip install flask psycopg2-binary
+
+COPY app.py .
+
+EXPOSE 80
+
+CMD ["python", "app.py"]
