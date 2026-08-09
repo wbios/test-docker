@@ -63,6 +63,9 @@ def edit_user(user_id):
 	cur.execute("SELECT * FROM users WHERE id = %s", (user_id,))
 
 	user = cur.fetchone()
+	if user is None:
+		flash("Utente non trovato")
+		return redirect("/")
 
 	cur.close()
 	conn.close()
