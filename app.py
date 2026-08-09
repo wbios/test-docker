@@ -47,6 +47,9 @@ def delete_user(user_id):
 	cur = conn.cursor()
 
 	cur.execute("DELETE FROM users WHERE id = %s", (user_id,))
+	if cur.rowcount == 0:
+		flash("Utente non trovato")
+		return redirect("/")
 
 	conn.commit()
 
