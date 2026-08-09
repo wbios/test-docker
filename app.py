@@ -71,8 +71,10 @@ def edit_user(user_id):
 
 @app.route("/update/<int:user_id>", methods=["POST"])
 def update_user(user_id):
-	name = request.form["name"]
-
+	name = request.form["name"].strip()
+	if not name:
+		flash("Il nome è obbligatorio")
+		return redirect(f"/edit/{user_id}")
 	conn = get_db_connection()
 	cur = conn.cursor()
 
