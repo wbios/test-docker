@@ -22,7 +22,9 @@ def home():
 
 @app.route("/add", methods=["POST"])
 def add_user():
-	name = request.form["name"]
+	name = request.form["name"].strip()
+	if not name:
+		return "Il nome è obbligatorio", 400
 
 	conn = get_db_connection()
 	cur = conn.cursor()
