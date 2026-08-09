@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash
 import psycopg2
 
 app =  Flask(__name__)
+app.secret_key = "dev-secret-key"
+
 def get_db_connection():
 	return psycopg2.connect(
 		host="database", database="testdb", user="app", password="password"
@@ -24,7 +26,8 @@ def home():
 def add_user():
 	name = request.form["name"].strip()
 	if not name:
-		return "Il nome è obbligatorio", 400
+		flash("Il nome è obbligatorio")
+		return redirect("/")
 
 	conn = get_db_connection()
 	cur = conn.cursor()
