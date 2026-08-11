@@ -1,3 +1,6 @@
+{% extends "base.html" %}
+{% block content %}
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -5,14 +8,6 @@
 	<title>Utenti</title>
 </head>
 <body>
-
-	{% with messages = get_flashed_messages() %}
-		{% if messages %}
-			{% for message in messages %}
-				<p>{{ message }}</p>
-			{% endfor %}
-		{% endif %}
-	{% endwith %}
 
 	<h1>Utenti H1</h1>
 	
@@ -36,3 +31,4 @@
 
 </body>
 </html>
+{% endblock %}
