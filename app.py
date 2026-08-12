@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash
-from db import get_users, add_user, update_user, delete_user
+from db import get_db_connection, get_users, add_user, update_user, delete_user
 
 app =  Flask(__name__)
 app.secret_key = "dev-secret-key"

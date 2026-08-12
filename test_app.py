@@ -1,9 +1,15 @@
 from app import app
 from db import get_db_connection
 
-def test_home(monkeypatch):
+def test_home():
 	client = app.test_client()
 	response = client.get("/")
+	assert response.status_code == 200
+
+def test_edit_user(user):
+	user_id = user[0]
+	client = app.test_client()
+	response = client.get(f"/edit/{user_id}")
 	assert response.status_code == 200
 
 def test_add_user_empty_name():
@@ -54,10 +60,10 @@ def test_update_user(user):
 			cur.execute(
 				"SELECT name FROM users WHERE id = %s", (user_id,)
 			)
-			user = cur.fetchone()
+			result = cur.fetchone()
 
-	assert user is not None
-	assert user[0] == "Mario Updated"
+	assert result is not None
+	assert result[0] == "Mario Updated"
 
 def test_update_user_empty_name(user):
 	user_id = user[0]
@@ -91,9 +97,9 @@ def test_delete_user(user):
 			cur.execute(
 				"SELECT id FROM users WHERE id = %s", (user_id,)
 			)
-			user = cur.fetchone()
+			result = cur.fetchone()
 
-	assert user is None
+	assert result is None
 
 def test_delete_user_not_found():
 	client = app.test_client()
