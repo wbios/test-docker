@@ -12,6 +12,15 @@ def test_edit_user(user):
 	response = client.get(f"/edit/{user_id}")
 	assert response.status_code == 200
 
+def test_edit_user_not_found():
+	client = app.test_client()
+	response = client.get("/edit/9999")
+	assert response.status_code == 302
+
+	with client.session_transaction() as session:
+		messages = session.get("_flashes")
+	assert messages == [("message", "Utente non trovato")]
+
 def test_add_user_empty_name():
 	client = app.test_client()
 
