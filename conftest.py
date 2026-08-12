@@ -9,3 +9,13 @@ def test_database(monkeypatch):
 		with conn.cursor() as cur:
 			cur.execute("TRUNCATE TABLE users RESTART IDENTITY CASCADE")
 
+@pytest.fixture
+def user():
+	with get_db_connection() as conn:
+		with conn.cursor() as cur:
+			cur.execute(
+				"INSERT INTO users (name) VALUES (%s) RETURNING id", ("Mario",)
+			)
+			return cur. fetchone()
+
+

@@ -25,16 +25,9 @@ def test_add_user():
 	assert user is not None
 	assert user[0] == "Test User"
 
-def test_update_user():
+def test_update_user(user):
+	user_id = user[0]
 	client = app.test_client()
-
-	with get_db_connection() as conn:
-		with conn.cursor() as cur:
-			cur.execute(
-				"INSERT INTO users (name) VALUES (%s) RETURNING id",
-				("Mario",)
-			)
-			user_id = cur.fetchone()[0]
 
 	response = client.post(
 		f"/update/{user_id}", data={"name":"Mario Updated"}
@@ -48,24 +41,22 @@ def test_update_user():
 				"SELECT name FROM users WHERE id = %s", (user_id,)
 			)
 			user = cur.fetchone()
+
 	assert user is not None
 	assert user[0] == "Mario Updated"
 
-def test_delete_user():
+def test_delete_user(user):
+	user_id = user[0]
 	client = app.test_client()
-	with get_db_connection() as conn:
-		with conn.cursor() as cur:
-			cur.execute(
-				"INSERT INTO users (name) VALUES (%s) RETURNING id", ("User To Delete",)
-			)
-			user_id = cur.fetchone()[0]
-
 	response = client.post(f"/delete/{user_id}")
+
 	assert response.status_code == 302
+
 	with get_db_connection() as conn:
 		with conn.cursor() as cur:
 			cur.execute(
 				"SELECT id FROM users WHERE id = %s", (user_id,)
 			)
 			user = cur.fetchone()
+
 	assert user is None
